@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+joblib
+argparse
+torch
+transformers
+sentencepiece
+logging
+streamlit
