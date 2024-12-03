@@ -112,7 +112,8 @@ An evaluation report is saved as evaluation_report.txt for the traditional model
 
 This project includes a **Streamlit app** for real-time intent classification. It allows users to interact with both traditional machine learning models and the BERT-based model via a simple web interface.
 
-A user-friendly web application built with Streamlit is available in the app.py script and can be accessed [here](https://lucastramonte-illuin-project-app-yo5nco.streamlit.app/).
+A user-friendly web application built with Streamlit is available in the app.py script and can be accessed [here](https://lucastramonte-intent-detection-for-travel-chatbots-app-7kqubn.streamlit.app/).
+
 
 ## Conclusion
 
