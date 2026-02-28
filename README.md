@@ -1,128 +1,190 @@
 # Intent-Detection-for-Travel-Chatbots
-This project implements a machine learning-based solution for intent detection in a travel assistant chatbot. The goal is to classify user messages into predefined intent categories such as "translate", "travel alert", "flight status", "lost luggage", and others, enabling the chatbot to provide accurate and contextually relevant responses.
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Installation](#installation)
-- [Data Preprocessing](#data-preprocessing)
-- [Modeling](#modeling)
-- [Usage](#usage)
-- [Evaluation](#evaluation)
-- [Streamlit App](#streamlit-app)
-- [Conclusion](#conclusion)
+This project implements intent detection for a travel assistant chatbot, with two model backends:
+- **classic ML** (`scikit-learn` models with TF-IDF)
+- **BERT** (`CamemBERT` via Hugging Face + PyTorch)
 
+The project has been refactored to use:
+- a **central CLI**: `src/cli/main.py`
+- a **shared YAML config**: `config/settings.yaml`
+- shared utilities in `src/utils/`
+- a Makefile-first workflow for local + Docker usage
 
-## Project Overview
+<div align="center">
+  <img src="docs/image.png" alt="Travel Intent Detection Architecture" width="100%" />
+</div>
 
-The chatbot needs to classify user inputs into several categories, including:
-- **translate**: User wants to translate a sentence to another language.
-- **travel_alert**: User is asking about travel alerts for a specific destination.
-- **flight_status**: User is asking about the status of a flight.
-- **lost_luggage**: User is reporting lost luggage.
-- **travel_suggestion**: User wants travel recommendations.
-- **carry_on**: User is asking about carry-on baggage policies.
-- **book_hotel**: User wants to book a hotel.
-- **book_flight**: User wants to book a flight.
+<div style="display: flex; gap: 10px;">
+  <a href="data/intent-detection-train.jsonl">[Dataset]</a>
+  <a href="reports/">[Reports]</a>
+</div>
 
-Additionally, the chatbot should identify requests that fall **out of scope** and respond accordingly.
+## Project Structure
 
-## Installation
-
-### Prerequisites
-To run this project, ensure you have Python 3.7+ installed.
-
-```bash
-pip install -r requirements.txt
+```text
+Intent-Detection-for-Travel-Chatbots/
+├── apps/
+│   └── app.py                      # Streamlit UI entrypoint
+├── config/
+│   └── settings.yaml               # Canonical runtime configuration
+├── data/
+│   ├── intent-detection-train.jsonl      # Canonical training dataset
+│   ├── intent-detection-test-perturbed.jsonl  # Stress-test dataset
+│   └── splits/                     # Deterministic split + augmentation artifacts
+│       ├── train.jsonl
+│       ├── validation.jsonl
+│       ├── test.jsonl
+│       ├── train_augmented_only.jsonl
+│       └── train_expanded.jsonl
+├── logs/                           # Runtime logs (CLI + per-model)
+├── models/                         # Saved model artifacts/checkpoints
+├── notebooks/
+│   └── exploratory.ipynb           # EDA + robustness experiments
+├── outputs/
+│   └── evaluations/                # Structured evaluation outputs (JSON)
+├── reports/                        # Deprecated legacy reports folder
+├── src/
+│   ├── cli/
+│   │   └── main.py                 # Unified command router (train/predict/evaluate/prepare-data/augment-data)
+│   ├── config/
+│   │   ├── loader.py               # YAML loader + PROJECT_ROOT resolution
+│   │   └── runtime_settings.py     # Centralized typed access to config-backed paths/settings
+│   ├── data/
+│   │   ├── dataset_preparation.py  # Deterministic stratified split generation
+│   │   └── data_augmentation.py    # Rule-based text augmentation
+│   ├── models/
+│   │   ├── base.py                 # Shared model contract
+│   │   ├── classic.py              # Classic sklearn pipeline implementation
+│   │   ├── bert.py                 # CamemBERT implementation
+│   │   └── registry.py             # Model factory/registry
+│   ├── services/
+│   │   ├── intent_service.py       # Orchestration logic for train/predict/evaluate
+│   │   └── evaluation_outputs.py   # JSON artifact writer for evaluation runs
+│   └── utils/
+│       ├── dataset_utils.py        # Shared JSONL I/O + dataframe normalization helpers
+│       ├── logging_utils.py        # Logger configuration helpers
+│       └── run_utils.py            # run_id-aware message formatting helper
+├── Dockerfile
+├── Makefile                        # Local/Docker workflow shortcuts
+├── requirements.txt
+└── README.md
 ```
 
-### Clone the Repository
-```bash
-git clone https://github.com/LucasTramonte/Intent-Detection-for-Travel-Chatbots.git
-cd Intent-Detection-for-Travel-Chatbots
-```
+## Setup
 
-## Data Preprocessing
-
-Data preprocessing is done by the intent_classifier.py script (and optionally intent_classifier_BERT.py for BERT-based models). The text data is processed using a TF-IDF vectorizer for traditional machine learning models, and labels are encoded using LabelEncoder. It also splits the data into training and testing sets.
-
-For the BERT-based model in intent_classifier_BERT.py, data preprocessing includes tokenizing the input text using the CamembertTokenizer and encoding the labels.
-
-- Text data is vectorized using TfidfVectorizer or tokenized using CamembertTokenizer for the BERT-based model.
-- Labels are encoded into numerical values using LabelEncoder.
-- The dataset is split into training and validation sets.
-## Modeling
-
-The intent classification is performed using both traditional machine learning algorithms and a BERT-based deep learning model. These models are evaluated on their accuracy, and the best-performing model is selected:
-
-- Random Forest Classifier
-- Logistic Regression
-- Support Vector Machine (SVM)
-- Naive Bayes
-- Gradient Boosting
-- K-Nearest Neighbors (KNN)
-- BERT-based Model: The BERT model is implemented in the intent_classifier_BERT.py script. This script uses the CamembertForSequenceClassification model from Hugging Face for French-language intent classification. 
-
-## Usage
-To train the model using a dataset, run the following command:
+### Local environment
 
 ```bash
-python intent_classifier.py --dataset Assets/Data/intent-detection-train.csv --train
+python -m venv .venv
+.venv\Scripts\python -m pip install --upgrade pip
+.venv\Scripts\python -m pip install -r requirements.txt
 ```
 
-To train the BERT-based model, you can use the following command:
+Or with Makefile:
 
 ```bash
-python intent_classifier_BERT.py --dataset Assets/Data/intent-detection-train.csv --train
+make install
 ```
 
-Once the model is trained, it can be used for predictions. To make a prediction for a single input text, you can use the following command:
+## Unified CLI (`src/cli/main.py`)
+
+All model operations now go through one entrypoint:
+
+- Train:
+```bash
+python -m src.cli.main train --model classic --dataset data/intent-detection-train.jsonl
+python -m src.cli.main train --model bert --dataset data/intent-detection-train.jsonl
+```
+
+- Predict:
+```bash
+python -m src.cli.main predict --model classic --text "Je recherche un vol"
+python -m src.cli.main predict --model bert --text "Je recherche un vol"
+```
+
+- Evaluate:
+```bash
+python -m src.cli.main evaluate --model classic --dataset data/intent-detection-train.jsonl
+python -m src.cli.main evaluate --model bert --dataset data/intent-detection-train.jsonl
+```
+
+## Makefile Workflow (Recommended)
+
+### Local
 
 ```bash
-python intent_classifier.py --predict "Dois-je faire quoi si je vais au Bresil"
+make install
+make prepare-data
+make augment-data
+make train MODEL=classic
+make predict MODEL=classic TEXT="Je recherche un vol"
+make evaluate MODEL=classic
+
+make train MODEL=bert
+make predict MODEL=bert TEXT="Je recherche un vol"
+make evaluate MODEL=bert
+
+make app
 ```
 
-or :
+`make prepare-data` creates deterministic splits:
+- `data/splits/train.jsonl`
+- `data/splits/validation.jsonl`
+- `data/splits/test.jsonl`
+
+By default, `make train` and `make evaluate` use split files for fairer and more stable evaluation.
+
+`make augment-data` builds an expanded training set from `data/splits/train.jsonl` and writes:
+- `data/splits/train_augmented_only.jsonl`
+- `data/splits/train_expanded.jsonl`
+
+By default, training now uses `data/splits/train_expanded.jsonl`.
+
+### Docker
+
+Docker run targets **auto-build** image first:
 
 ```bash
-python intent_classifier_BERT.py --predict "Je recherche un vol"
+make docker-train MODEL=classic
+make docker-predict MODEL=classic TEXT="Je recherche un vol"
+make docker-evaluate MODEL=classic
+
+make docker-train MODEL=bert
+make docker-predict MODEL=bert TEXT="Je recherche un vol"
+make docker-evaluate MODEL=bert
+
+make docker-app
 ```
 
-## Evaluation
-
-After training, the model is evaluated using the evaluate_model method. The model performance is assessed using:
-
-- Classification Report: Includes precision, recall, and F1-score for each class.
-- Confusion Matrix: To evaluate true positives, true negatives, false positives, and false negatives.
-
-To evaluate the model with a dataset, use the following command:
+Manual build if needed:
 
 ```bash
-python intent_classifier.py --dataset Assets/Data/intent-detection-train.csv
+make docker-build
 ```
-
-To evaluate the BERT model with a dataset, use:
-
-```bash
-python intent_classifier_BERT.py --dataset Assets/Data/intent-detection-test.csv --evaluate
-```
-
-An evaluation report is saved as evaluation_report.txt for the traditional model, and evaluation_report_Camembert.txt for the BERT-based model, which includes all metrics for the trained model.
 
 ## Streamlit App
 
-This project includes a **Streamlit app** for real-time intent classification. It allows users to interact with both traditional machine learning models and the BERT-based model via a simple web interface.
+Run locally:
 
-A user-friendly web application built with Streamlit is available in the app.py script and can be accessed [here](https://lucastramonte-intent-detection-for-travel-chatbots-app-7kqubn.streamlit.app/).
+```bash
+.venv\Scripts\python -m streamlit run apps/app.py
+```
 
+## Logs and Outputs
 
-## Conclusion
+- Logs: `logs/`
+  - `intent_classifier.log`
+  - `intent_classifier_bert.log`
+- Structured evaluation outputs (primary): `outputs/evaluations/<model>/<timestamp>/`
+  - `summary.json`
+  - `metrics.json`
+  - `classification_report.json`
+  - `confusion_matrix.json`
+  - `predictions.json`
+- Models: `models/`
+- Reports: `reports/` (deprecated; no longer written by evaluation flow)
 
-This project demonstrates the use of both traditional machine learning models and deep learning models (specifically BERT-based models) to detect intents in user queries for a travel assistant chatbot. The models were trained, evaluated, and the best-performing model was selected to make accurate predictions.
+## Notes
 
-Further improvements can be made by:
-
-- Tuning hyperparameters and using cross-validation to reduce overfitting.
-- Using more advanced models such as XGBoost for better performance.
-- Exploring additional data preprocessing methods such as stemming, lemmatization, or using pre-trained embeddings for more robust features.
-
-
+- If CamemBERT warns about unauthenticated Hugging Face requests, set `HF_TOKEN` for better rate limits.
+- On Windows, if symlink warnings appear from `huggingface_hub`, enabling Developer Mode removes that warning but is optional.

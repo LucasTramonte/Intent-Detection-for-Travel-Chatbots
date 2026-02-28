@@ -1,6 +1,6 @@
 import streamlit as st
-from intent_classifier import IntentClassifier   # For ML models
-#from intent_classifier_BERT import IntentClassifier_BERT  # For Camembert (BERT)
+from src.models.classic import IntentClassifier
+#from src.models.bert import IntentClassifierBert  # For Camembert (BERT)
 
 # Title of the app
 st.title("Travel Chatbot Intent Classification")
@@ -28,7 +28,7 @@ if st.button("Classify Intent"):
     predicted_intent = ml_classifier.predict_intent(user_input)
     st.write(f"Predicted Intent (Traditional ML): {predicted_intent}")
     
-    #BERT_classifier = IntentClassifier_BERT()
+    #BERT_classifier = IntentClassifierBert()
     #predicted_intent = BERT_classifier.predict_intent(user_input)
     #st.write(f"Predicted Intent (BERT): {predicted_intent}")
     

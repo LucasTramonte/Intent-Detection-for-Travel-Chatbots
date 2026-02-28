@@ -1,0 +1,75 @@
+{"text":"Pouvez-vous me dire comment dire «je ne parle pas beaucoup espagnol», en espagnol","label":"translate"}
+{"text":"Dites-moi comment dire: «C'est une belle matinée» en italien","label":"translate"}
+{"text":"Si j'étais japonais, comment dirais-je que je suis touriste","label":"translate"}
+{"text":"Comment dire «hôtel» en finnois","label":"translate"}
+{"text":"J'ai besoin que vous traduisiez la phrase, «nous y serons bientôt» en portugais","label":"translate"}
+{"text":"Veuillez me dire comment demander un taxi en français","label":"translate"}
+{"text":"Comment dire bonjour en anglais","label":"translate"}
+{"text":"La Corée du Nord a-t-elle des alertes de voyage que je devrais être conscientes","label":"travel_alert"}
+{"text":"Y a-t-il des alertes de voyage pour la Syrie","label":"travel_alert"}
+{"text":"Y a-t-il une alerte de voyage pour la Russie","label":"travel_alert"}
+{"text":"Est-il sûr de se rendre en Islande","label":"travel_alert"}
+{"text":"Parlez-moi des alertes de voyage émises pour l'Allemagne","label":"travel_alert"}
+{"text":"Y a-t-il des nouvelles sur le vol DL123","label":"flight_status"}
+{"text":"Quand allons-nous commencer à monter à bord de mon vol prévu","label":"flight_status"}
+{"text":"Quand mon vol décollera-t-il","label":"flight_status"}
+{"text":"Quand mon vol atterrira-t-il","label":"flight_status"}
+{"text":"quelle est la porte d'embarquement pour mon vol AF847","label":"flight_status"}
+{"text":"Quand vais-je arriver à destination","label":"flight_status"}
+{"text":"Localiser les bagages perdus de Flight America Airlines à O'Hare","label":"lost_luggage"}
+{"text":"Perte des bagages sur Flight America Airlines à O'Hare","label":"lost_luggage"}
+{"text":"Je pense que mes bagages ont été perdus","label":"lost_luggage"}
+{"text":"Mes bagages sont manquants, j'étais sur le vol Frontier AB123 depuis Seattle","label":"lost_luggage"}
+{"text":"Aide, j'ai perdu mes bagages","label":"lost_luggage"}
+{"text":"Savez-vous qui je devrais contacter car mes valises ne sont pas arrivées","label":"lost_luggage"}
+{"text":"À qui dois-je me plaindre que mes bagages n'arrivent pas à l'aéroport","label":"lost_luggage"}
+{"text":"Veuillez suggérer des activités touristiques amusantes à Tokyo","label":"travel_suggestion"}
+{"text":"Si je vais à Evans, que dois-je faire","label":"travel_suggestion"}
+{"text":"Quels sont les bons restaurants à Chicago","label":"travel_suggestion"}
+{"text":"où devrais-je passer mon temps libre","label":"travel_suggestion"}
+{"text":"Que puis-je faire à Nashville","label":"travel_suggestion"}
+{"text":"Donnez-moi une liste de choses à faire à Orlando","label":"travel_suggestion"}
+{"text":"Où est la meilleure cave du sud de la France","label":"travel_suggestion"}
+{"text":"Y a-t-il des activités touristiques amusantes en Australie","label":"travel_suggestion"}
+{"text":"Voulez-vous me faire part des restrictions de bagage à main pour American Airlines","label":"carry_on"}
+{"text":"Restrictions de cabine pour les émirats arabes unis","label":"carry_on"}
+{"text":"Qu'est-ce que je suis autorisé à prendre en cabine avec American Airlines","label":"carry_on"}
+{"text":"Y a-t-il une limite de poids pour mon bagage à main","label":"carry_on"}
+{"text":"Combien de bagages à main puis-je prendre pendant un vol avec United pour Lax","label":"carry_on"}
+{"text":"Quelles sont les règles concernant les bagages à main pour les vols Virgin Airlines","label":"carry_on"}
+{"text":"Y a-t-il une limite de poids de bagage cabine","label":"carry_on"}
+{"text":"Dois-je payer pour mes bagages à main","label":"carry_on"}
+{"text":"Réservez-moi une chambre du 11 au 15 novembre à Cali","label":"book_hotel"}
+{"text":"Trouvez-moi un endroit où séjourner à Cali du 11 au 15 novembre","label":"book_hotel"}
+{"text":"Quels hôtels ont des critiques décentes à Bangor","label":"book_hotel"}
+{"text":"Veuillez me trouver une chambre d'hôtel pour 4 personnes du lundi au mercredi à Lakewood","label":"book_hotel"}
+{"text":"Trouvez un hôtel Columbus, Ohio avec de bonnes critiques","label":"book_hotel"}
+{"text":"S'il vous plaît, aidez-moi à réserver un endroit où séjourner à Pittsburgh du lundi au vendredi","label":"book_hotel"}
+{"text":"J'ai besoin d'une chambre d'hôtel assez grande pour 4 personnes du lundi au mercredi à Lakewood","label":"book_hotel"}
+{"text":"Trouvez-moi des vols aller-retour de LAX vers SFOX","label":"book_flight"}
+{"text":"Réservez un vol de Chicago à DC lundi et revenant mercredi","label":"book_flight"}
+{"text":"Je recherche un vol aller-retour de AAF à DIA du 23 février au 28 février","label":"book_flight"}
+{"text":"Pourriez-vous faire une réservation de vol avec Air Emirates d'Orlando à Londres","label":"book_flight"}
+{"text":"J'ai besoin de réserver un vol aller-retour de Dallas à Los Angeles du 2 au 10 mars","label":"book_flight"}
+{"text":"Je voudrais savoir quels vols sont disponibles sur El Paso à Dallas le 10 juin pour moins de 300 $","label":"book_flight"}
+{"text":"Combien coûte des frais de découvert pour la banque","label":"out_of_scope"}
+{"text":"Quelle taille d'essuie-glace cette voiture prend-t-elle","label":"out_of_scope"}
+{"text":"Quel est le plus grand état des États-Unis","label":"out_of_scope"}
+{"text":"Quelle est la compagnie aérienne la plus populaire","label":"out_of_scope"}
+{"text":"Combien de planètes avons-nous découvert","label":"out_of_scope"}
+{"text":"Combien de côtés dans un hexagone","label":"out_of_scope"}
+{"text":"Combien de temps dure l'hiver","label":"out_of_scope"}
+{"text":"qui est l'entraîneur des Chicago Bulls","label":"out_of_scope"}
+{"text":"Combien d'Oscars ont gagné les films Star Wars","label":"out_of_scope"}
+{"text":"Veuillez trouver la capitale du Pakistan ","label":"out_of_scope"}
+{"text":"qui est le personnage le plus effrayant de Start Trek","label":"out_of_scope"}
+{"text":"Quelle est la durée de vie de la batterie moyenne d'un téléphone Android","label":"out_of_scope"}
+{"text":"Quand Camus est-il mort","label":"out_of_scope"}
+{"text":"Quand Nintendo a-t-il été créé","label":"out_of_scope"}
+{"text":"Quel personnage Marvel est apparu dans le plus de films","label":"out_of_scope"}
+{"text":"Quels sont les avantages de terminer le lycée","label":"out_of_scope"}
+{"text":"Pouvez-vous me dire à quelle vitesse moyenne l'avion vers la Californie va","label":"out_of_scope"}
+{"text":"Est-il possible de louer une voiture à la Laguardia du mardi au vendredi","label":"out_of_scope"}
+{"text":"Que vaut un dollar au Mexique","label":"out_of_scope"}
+{"text":"Quel est le taux de change entre l'USD et l'euro","label":"out_of_scope"}
+{"text":"Pouvez-vous me dire le fuseau horaire à San Francisco","label":"out_of_scope"}

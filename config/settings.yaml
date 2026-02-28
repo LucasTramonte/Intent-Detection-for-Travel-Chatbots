@@ -1,0 +1,71 @@
+paths:
+  default_dataset: data/intent-detection-train.jsonl
+  reports_dir: reports
+  logs_dir: logs
+  outputs_dir: outputs
+
+data:
+  raw_dataset: data/intent-detection-train.jsonl
+  splits_dir: data/splits
+  train_file: train.jsonl
+  validation_file: validation.jsonl
+  test_file: test.jsonl
+  expanded_train_file: train_expanded.jsonl
+  augmented_only_file: train_augmented_only.jsonl
+  validation_size: 0.1
+
+augmentation:
+  random_state: 42
+  max_variants_per_text: 6
+  target_strategy: balance_to_max
+  prefixes:
+    - "bonjour, "
+    - "svp, "
+    - "s'il vous plaît, "
+    - "urgent: "
+  suffixes:
+    - " merci"
+    - " svp"
+    - " rapidement"
+    - " s'il vous plaît"
+  token_replacements:
+    vol:
+      - "billet"
+      - "trajet"
+    hôtel:
+      - "hotel"
+      - "hébergement"
+    bagage:
+      - "valise"
+    traduire:
+      - "traduction"
+      - "traduisez"
+    retard:
+      - "décalage"
+    annulé:
+      - "annule"
+
+evaluation:
+  random_state: 42
+  test_size: 0.2
+
+classic:
+  model_dir: models/traditional
+  model_file: best_model.joblib
+  label_encoder_file: label_encoder.joblib
+  evaluation_report_file: evaluation_report.txt
+  log_file: intent_classifier.log
+  max_iter: 1000
+  n_estimators: 100
+  random_state: 42
+  max_features: 5000
+
+bert:
+  model_dir: models/camembert
+  label_encoder_file: label_encoder.pth
+  evaluation_report_file: evaluation_report_camembert.txt
+  log_file: intent_classifier_bert.log
+  model_name: camembert-base
+  max_len: 128
+  batch_size: 16
+  epochs: 15
