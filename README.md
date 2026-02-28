@@ -1,5 +1,14 @@
 # Intent-Detection-for-Travel-Chatbots
 
+<div align="center">
+  <img src="docs/image.png" alt="Travel Intent Detection Architecture" width="100%" />
+</div>
+
+<div style="display: flex; gap: 10px;">
+  <a href="data/intent-detection-train.jsonl">[Dataset]</a>
+  <a href="reports/">[Reports]</a>
+</div>
+
 This project implements intent detection for a travel assistant chatbot, with two model backends:
 - **classic ML** (`scikit-learn` models with TF-IDF)
 - **BERT** (`CamemBERT` via Hugging Face + PyTorch)
@@ -10,19 +19,19 @@ The project has been refactored to use:
 - shared utilities in `src/utils/`
 - a Makefile-first workflow for local + Docker usage
 
-<div align="center">
-  <img src="docs/image.png" alt="Travel Intent Detection Architecture" width="100%" />
-</div>
-
-<div style="display: flex; gap: 10px;">
-  <a href="data/intent-detection-train.jsonl">[Dataset]</a>
-  <a href="reports/">[Reports]</a>
-</div>
-
 ## Project Structure
 
 ```text
 Intent-Detection-for-Travel-Chatbots/
+├── analysis/
+│   ├── scripts/
+│   │   ├── common.py              # Shared paths/I-O helpers for exploration scripts
+│   │   ├── eda_report.py          # Dataset summary + intent distribution stats
+│   │   ├── robustness_experiments.py # Lexical overlap + baseline CV experiments
+│   │   ├── generate_stress_test.py   # Rule-based perturbed test generation
+│   │   └── run_all.py             # Executes all exploration scripts in sequence
+│   └── outputs/                   # Generated analysis artifacts (gitignored)
+│       └── .gitkeep
 ├── apps/
 │   └── app.py                      # Streamlit UI entrypoint
 ├── config/
@@ -38,8 +47,6 @@ Intent-Detection-for-Travel-Chatbots/
 │       └── train_expanded.jsonl
 ├── logs/                           # Runtime logs (CLI + per-model)
 ├── models/                         # Saved model artifacts/checkpoints
-├── notebooks/
-│   └── exploratory.ipynb           # EDA + robustness experiments
 ├── outputs/
 │   └── evaluations/                # Structured evaluation outputs (JSON)
 ├── reports/                        # Deprecated legacy reports folder
@@ -169,6 +176,26 @@ Run locally:
 ```bash
 .venv\Scripts\python -m streamlit run apps/app.py
 ```
+
+## Exploratory Analysis (Scripts)
+
+Notebook-based exploration has been replaced with clean Python scripts.
+
+Run all exploratory analyses:
+
+```bash
+python analysis/scripts/run_all.py
+```
+
+Or run scripts individually:
+
+```bash
+python analysis/scripts/eda_report.py
+python analysis/scripts/robustness_experiments.py
+python analysis/scripts/generate_stress_test.py
+```
+
+Generated outputs are written to `analysis/outputs/`.
 
 ## Logs and Outputs
 
